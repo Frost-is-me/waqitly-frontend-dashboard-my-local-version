@@ -1,7 +1,20 @@
 // src/pages/Dash_Board.tsx this is the dashboard page for the admin panel and it contains the sidebar and the main content area
 //the style is done using tailwind css and it is only for demo purposes only it will be changed later when the Ui/UX design is done
+import TotalBooking from "../hooks/total_booking";
+import useStatus from "../stores/Reservation_status";
 
 function Dashboard() {
+
+function Test() {
+    const { fetchStatus, status, amount,done_count,cancelled_count,rejected_count,reserved_count,pending_count } = useStatus();
+    return(
+        <div>
+        <h1>testing</h1>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => fetchStatus("123")}>Fetch Status</button>
+        </div>
+    )
+}
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="flex flex-col md:flex-row h-screen">    
@@ -59,8 +72,8 @@ function Dashboard() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-sm text-gray-500 mb-2">Total Bookings</div>
-              <div className="text-2xl font-bold text-gray-800">0</div>
+              <div>{Test()}</div>
+              <div className="text-2xl font-bold text-gray-800">{TotalBooking()}</div>
             </div>
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">Confirmed Revenue</div>

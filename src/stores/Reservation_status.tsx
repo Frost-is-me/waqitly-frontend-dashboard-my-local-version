@@ -23,7 +23,7 @@ const useStatus = create<status_store>((set) => ({
         set({ status: null });
         try {
             const response = await axios.get(`/reservations/${reservation_id}`);
-            const newstatus = response.data.Reservation["name1"].status
+            const newstatus = response.data.Reservation["name2"].status
             set((state) => ({
                 status: newstatus,
                 amount: state.amount + 1,
