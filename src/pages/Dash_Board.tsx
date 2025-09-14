@@ -1,10 +1,10 @@
 // src/pages/Dash_Board.tsx this is the dashboard page for the admin panel and it contains the sidebar and the main content area
 //the style is done using tailwind css and it is only for demo purposes only it will be changed later when the Ui/UX design is done
 import TotalBooking from "../hooks/total_booking";
-import useStatus from "../stores/Reservation_status";
+{/*import useStatus from "../stores/Reservation_status";*/}
 
 function Dashboard() {
-const {fetchStatus} = useStatus();
+{/*const {fetchStatus} = useStatus();*/}
 
   return (
     <div className="bg-gray-100 min-h-screen">

@@ -1,4 +1,4 @@
-import useStatus from '../stores/Reservation_status';
+{/*import useStatus from '../stores/Reservation_status';
 import mock from "../services/Mocks/Reservation_mock";
 function Test() {
     const { fetchStatus, status, amount,done_count,cancelled_count,rejected_count,reserved_count,pending_count } = useStatus();
@@ -17,4 +17,4 @@ function Test() {
     )
 }
 
-export default Test;
+export default Test;*/}
