@@ -4,6 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/waqitly-frontend-dashboard-my-local-version/',
+  base: '/waqitly-frontend-dashboard/',
   plugins: [react(), tailwindcss()],
 })
