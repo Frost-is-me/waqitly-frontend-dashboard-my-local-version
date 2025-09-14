@@ -4,16 +4,7 @@ import TotalBooking from "../hooks/total_booking";
 import useStatus from "../stores/Reservation_status";
 
 function Dashboard() {
-
-function Test() {
-    const { fetchStatus, status, amount,done_count,cancelled_count,rejected_count,reserved_count,pending_count } = useStatus();
-    return(
-        <div>
-        <h1>testing</h1>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => fetchStatus("123")}>Fetch Status</button>
-        </div>
-    )
-}
+const {fetchStatus} = useStatus();
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -72,7 +63,7 @@ function Test() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-              <div>{Test()}</div>
+              <div className="text-sm text-gray-500 mb-2">TotalBooking</div>
               <div className="text-2xl font-bold text-gray-800">{TotalBooking()}</div>
             </div>
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
