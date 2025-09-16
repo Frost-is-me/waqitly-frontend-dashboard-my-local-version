@@ -1,11 +1,14 @@
 // src/pages/Dash_Board.tsx this is the dashboard page for the admin panel and it contains the sidebar and the main content area
 //the style is done using tailwind css and it is only for demo purposes only it will be changed later when the Ui/UX design is done
-import TotalBooking from "../hooks/total_booking";
-{/*import useStatus from "../stores/Reservation_status";*/}
+import useTotalBooking from "../hooks/useTotalBookings";
+import useRevenue from "../hooks/useConfirmedRevenue";
+import useTranslation from "../hooks/useTranslations";
+import LanguageSwitcher from "../components/shared/LanguageSwitcher";
 
 function Dashboard() {
-{/*const {fetchStatus} = useStatus();*/}
-
+  const {t} = useTranslation()
+  const TotalBooking = useTotalBooking()
+  const Revenue = useRevenue()
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="flex flex-col md:flex-row h-screen">    
@@ -13,7 +16,7 @@ function Dashboard() {
         <div className="w-full md:w-64 bg-gradient-to-b from-purple-900 to-purple-800 text-zinc-200 shadow-md">
           <div className="p-5 border-b border-purple-600">
             <h1 className="text-xl font-bold flex items-center">
-              <i className="fas fa-tachometer-alt mr-2"></i> Admin Dashboard
+              <i className="fas fa-tachometer-alt mr-2"></i> {t("dashboard.title")}
             </h1>
             <p className="text-purple-200 text-sm mt-1">Welcome, admin!</p>
           </div>
@@ -58,17 +61,18 @@ function Dashboard() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold text-gray-800">Overview</h2>
+            <LanguageSwitcher />
           </div>
           
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">TotalBooking</div>
-              <div className="text-2xl font-bold text-gray-800">{TotalBooking()}</div>
+              <div className="text-2xl font-bold text-gray-800">{TotalBooking}</div>
             </div>
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">Confirmed Revenue</div>
-              <div className="text-2xl font-bold text-gray-800">IQD 0.00</div>
+              <div className="text-2xl font-bold text-gray-800">IQD {Revenue ? Revenue : "0.00"}</div>
             </div>
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
               <div className="text-sm text-gray-500 mb-2">Projected Revenue</div>

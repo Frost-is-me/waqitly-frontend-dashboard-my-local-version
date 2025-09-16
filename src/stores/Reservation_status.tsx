@@ -8,7 +8,7 @@ import axios from 'axios';
     pending_count: number;
     rejected_count: number;
     cancelled_count: number;
-    fetchStatus: (reservation_id: string) => Promise<void>;
+    fetchStatus: (reservation_id: string | number) => Promise<void>;
 }
 
 const useStatus = create<status_store>((set) => ({
@@ -22,8 +22,8 @@ const useStatus = create<status_store>((set) => ({
     fetchStatus: async (reservation_id) => {
         set({ status: null });
         try {
-            const response = await axios.get(`/reservations/${reservation_id}`);
-            const newstatus = response.data.Reservation["name2"].status
+            const response = await axios.get(`/Reservations/${reservation_id}`);
+            const newstatus = response.data.Reservation["Reservations1"].status
             set((state) => ({
                 status: newstatus,
                 amount: state.amount + 1,
@@ -33,7 +33,7 @@ const useStatus = create<status_store>((set) => ({
                 rejected_count: newstatus === 'rejected' ? state.rejected_count + 1 : state.rejected_count,
                 cancelled_count: newstatus === 'cancelled' ? state.cancelled_count + 1 : state.cancelled_count,
              }));
-            console.log(response.data.Reservation["name2"].status)
+            console.log(response.data.Reservation["Reservations1"].status)
         } catch (error) {
             set({ status: null });
             console.log("Error fetching status:", error);
@@ -42,3 +42,6 @@ const useStatus = create<status_store>((set) => ({
 }));
 
 export default useStatus;
+
+// This is the the status store you can get your status from here and you can use it for Hooks or other features it will likley change once the back-end is ready but the idea
+// and how it works should reamin the same
