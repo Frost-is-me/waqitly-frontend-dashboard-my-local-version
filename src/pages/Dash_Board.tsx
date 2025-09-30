@@ -1,55 +1,120 @@
 // src/pages/Dash_Board.tsx this is the dashboard page for the admin panel and it contains the sidebar and the main content area
 //the style is done using tailwind css and it is only for demo purposes only it will be changed later when the Ui/UX design is done
-import useTotalBooking from "../hooks/useTotalBookings";
+import {useTotalBooking, useTotalPending} from "../hooks/useBookingsStatus"
 import useRevenue from "../hooks/useConfirmedRevenue";
-import useTranslation from "../hooks/useTranslations";
+import useTranslations from "../hooks/useTranslations";
+import useAveragePrice from "@/hooks/useAverage";
 import LanguageSwitcher from "../components/shared/LanguageSwitcher";
+import { ChartAreaInteractive } from "@/components/shared/chart-area-interactive";
+import EventCards from "@/components/ui/UpcomingEventsCard";
+import DropMenu from "@/components/ui/DropDown";
+import { Link } from "react-router-dom"
 
 function Dashboard() {
-  const {t} = useTranslation()
+  const {t} = useTranslations()
   const TotalBooking = useTotalBooking()
+  const Pending = useTotalPending()
   const Revenue = useRevenue()
+  const AveragePrice = useAveragePrice()
+  const isArabic = document.documentElement.dir === "rtl";
+  const isRTL = document.documentElement.dir = isArabic ? "rtl" : "ltr";
+  
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className={`bg-gray-100 min-h-screen ${ isRTL ? "rtl" : "ltr"}`}> 
       <div className="flex flex-col md:flex-row h-screen">    
-        {/* Sidebar - unchanged as requested */}
-        <div className="w-full md:w-64 bg-gradient-to-b from-purple-900 to-purple-800 text-zinc-200 shadow-md">
-          <div className="p-5 border-b border-purple-600">
+        {/* Sidebar */}
+        <div className="w-full md:w-64 bg-custom-blue text-zinc-200 shadow-md">
+          <div style={{ borderBottom: '1px solid #ffffff'}} className="p-5 pb-5.5 ">
             <h1 className="text-xl font-bold flex items-center">
-              <i className="fas fa-tachometer-alt mr-2"></i> {t("dashboard.title")}
+              {t("dashboard.title")}
             </h1>
-            <p className="text-purple-200 text-sm mt-1">Welcome, admin!</p>
+            <p className="text-custom-blue-foreground text-sm mt-1">{t("dashboard.Welcome")}</p>
           </div>
           <nav className="p-5 pl-2 pr-2">
-            <div className="mb-2 text-purple-200 font-semibold">
-              <div className="text-purple-300 text-xs uppercase font-bold pl-3 py-2">
-                Navigation
-              </div>
+            <div className="mb-2 text-custom-blue-foreground font-semibold">
               <ul>
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-lg hover:bg-purple-700 hover:text-white sidebar-hover-effect transition-all duration-300 ease-in-out cursor-pointer">
-                    Overview
-                  </a>
+                  <Link to="/" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white sidebar-hover-effect transition-all duration-300 ease-in-out cursor-pointer
+                  "
+                  
+                  >
+                    <img 
+                    src="../../icons/svg/Overview.svg" 
+                    alt="Overview icon" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Overview")}
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-lg hover:bg-purple-700 hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
-                    Calendar
-                  </a>
+                  <Link to="Calendar" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+                    <img 
+                    src="../../icons/svg/Calendar.svg" 
+                    alt="Calendar icon" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Calendar")}
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-lg hover:bg-purple-700 hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
-                    Create a Space
-                  </a>
+                  <Link to="/CreateService" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+                    <img 
+                    src="../../icons/svg/Settings.svg" 
+                    alt="Create a Service icon" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Create a Service")}
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-lg hover:bg-purple-700 hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
-                    Reports
-                  </a>
+                  <Link to="/Reservations" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+                    <img 
+                    src="../../icons/svg/Team.svg" 
+                    alt="Reservations" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Reservations")}
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="block py-2 px-4 rounded-lg hover:bg-purple-700 hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
-                    Team
-                  </a>
+                  <Link to="/Locations" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+                    <img 
+                    src="../../icons/svg/Locations.svg" 
+                    alt="Locations icon" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Locations")}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/Analytics" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+                    <img 
+                    src="../../icons/svg/Overview.svg" 
+                    alt="Analytics icon" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Analytics")}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/Team" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+                    <img 
+                    src="../../icons/svg/Team.svg" 
+                    alt="Team icon" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Team")}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="#" className="block py-2 px-4 rounded-lg hover:bg-custom-blue-hover hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+                    <img 
+                    src="../../icons/svg/Settings.svg" 
+                    alt="Settings icon" 
+                    className="inline-block w-4 h-4 mb-1 mr-3 align-middle rtl:ml-3"
+                    />
+                    {t("dashboard.Settings")}
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -57,130 +122,109 @@ function Dashboard() {
         </div>
         
         {/* Main Content Area */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-800">Overview</h2>
+          <div className="relative flex items-center justify-between mb-6 bg-custom-blue " style={{padding: "1.7rem"}}>
+            <h1 className="text-4xl pl-4 font-montagu text-custom-blue-foreground">{t("dashboard.Overview")}</h1>
+            <DropMenu />
             <LanguageSwitcher />
+            <div className="w-full absolute top-23.5 right-2 h-0.5 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
           </div>
           
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 m-2">
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-sm text-gray-500 mb-2">TotalBooking</div>
+              <div className="text-sm text-gray-500 mb-2">{t("dashboard.Total Bookings")}</div>
               <div className="text-2xl font-bold text-gray-800">{TotalBooking}</div>
             </div>
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-sm text-gray-500 mb-2">Confirmed Revenue</div>
-              <div className="text-2xl font-bold text-gray-800">IQD {Revenue ? Revenue : "0.00"}</div>
+              <div className="text-sm text-gray-500 mb-2">{t("dashboard.Pending")}</div>
+              <div className="text-2xl font-bold text-gray-800">{Pending}</div>
             </div>
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-sm text-gray-500 mb-2">Projected Revenue</div>
-              <div className="text-2xl font-bold text-gray-800">IQD 0.00</div>
+              <div className="text-sm text-gray-500 mb-2">{t("dashboard.Confirmed Revenue")}</div>
+              <div className="text-2xl font-bold text-gray-800 rtl:">
+              {Revenue ? Revenue.toFixed(2) : "0.00"}
+              <span className="rtl:inline pl-2">IQD</span>
+              </div>
             </div>
             <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-              <div className="text-sm text-gray-500 mb-2">Total Revenue (Approx.)</div>
-              <div className="text-2xl font-bold text-gray-800">IQD 0.00</div>
+              <div className="text-sm text-gray-500 mb-2">{t("dashboard.Average Price")}</div>
+              <div className="text-2xl font-bold text-gray-800">
+                {AveragePrice ? AveragePrice.toFixed(2) : "0.00"}
+                <span className="rtl:inline pl-2">IQD</span>
+              </div>
             </div>
+          </div>
+    
+            <div className="mb-6">
+              <ChartAreaInteractive />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-2">
+              
+               <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("dashboard.Customer Rating")}</h2>
+    
+                <div className="flex items-center mb-4">
+                  <div className="flex text-yellow-400 text-2xl">
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                  </div>
+                  <span className="ml-2 text-gray-700 font-medium">4.8/5</span>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-600 w-16">5 {t("dashboard.stars")}</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full mx-2">
+                      <div className="h-full bg-yellow-400 rounded-full" style={{width: '85%'}}></div>
+                    </div>
+                    <span className="text-sm text-gray-600 w-8">85%</span>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-600 w-16">4 {t("dashboard.stars")}</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full mx-2">
+                      <div className="h-full bg-yellow-400 rounded-full" style={{width: '12%'}}></div>
+                    </div>
+                    <span className="text-sm text-gray-600 w-8">12%</span>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-600 w-16">3 {t("dashboard.stars")}</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full mx-2">
+                      <div className="h-full bg-yellow-400 rounded-full" style={{width: '2%'}}></div>
+                    </div>
+                    <span className="text-sm text-gray-600 w-8">2%</span>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-600 w-16">2 {t("dashboard.stars")}</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full mx-2">
+                      <div className="h-full bg-yellow-400 rounded-full" style={{width: '1%'}}></div>
+                    </div>
+                    <span className="text-sm text-gray-600 w-8">1%</span>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-600 w-16">1 {t("dashboard.stars")}</span>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full mx-2">
+                      <div className="h-full bg-yellow-400 rounded-full" style={{width: '0%'}}></div>
+                    </div>
+                    <span className="text-sm text-gray-600 w-8">0%</span>
+                  </div>
+                </div>
+                
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <p className="text-sm text-gray-600">Based on 247 reviews</p>
+                </div>
+              </div>
+              <EventCards />
           </div>
           
-          {/* Two Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Left Column - Bookings */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">Bookings</h3>
-              </div>
-              
-              <div className="text-center py-10">
-                <div className="mb-4 text-gray-400">
-                  <i className="fas fa-calendar-times text-4xl"></i>
-                </div>
-                <p className="text-gray-500 mb-6">You don't have any Bookings for today.</p>
-                <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
-                  Go to Calendar
-                </button>
-              </div>
-            </div>
-            
-            {/* Right Column - Activity Feed */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">Activity Feed</h3>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <div className="p-2 bg-blue-100 text-blue-600 rounded-full mr-3">
-                    <i className="fas fa-user-plus"></i>
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-800">New user registered</p>
-                    <p className="text-sm text-gray-600">John Doe joined the platform</p>
-                    <p className="text-xs text-gray-500">2 hours ago</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="p-2 bg-green-100 text-green-600 rounded-full mr-3">
-                    <i className="fas fa-calendar-check"></i>
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-800">Booking confirmed</p>
-                    <p className="text-sm text-gray-600">Meeting Room A booked for tomorrow</p>
-                    <p className="text-xs text-gray-500">5 hours ago</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="p-2 bg-purple-100 text-purple-600 rounded-full mr-3">
-                    <i className="fas fa-building"></i>
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-800">New space added</p>
-                    <p className="text-sm text-gray-600">Conference Room B is now available</p>
-                    <p className="text-xs text-gray-500">1 day ago</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="p-2 bg-yellow-100 text-yellow-600 rounded-full mr-3">
-                    <i className="fas fa-exclamation-circle"></i>
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-800">Payment reminder</p>
-                    <p className="text-sm text-gray-600">Invoice #1234 is due in 3 days</p>
-                    <p className="text-xs text-gray-500">2 days ago</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Coming up Next Section */}
-          <div className="mt-6 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">Coming up Next</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="border-l-4 border-blue-500 pl-4 py-2">
-                <p className="font-medium text-gray-800">Team Meeting</p>
-                <p className="text-sm text-gray-600">Tomorrow, 10:00 AM</p>
-                <p className="text-xs text-gray-500">Conference Room A</p>
-              </div>
-              
-              <div className="border-l-4 border-green-500 pl-4 py-2">
-                <p className="font-medium text-gray-800">Client Presentation</p>
-                <p className="text-sm text-gray-600">Jun 15, 2:30 PM</p>
-                <p className="text-xs text-gray-500">Meeting Room B</p>
-              </div>
-              
-              <div className="border-l-4 border-purple-500 pl-4 py-2">
-                <p className="font-medium text-gray-800">Workshop</p>
-                <p className="text-sm text-gray-600">Jun 18, 9:00 AM</p>
-                <p className="text-xs text-gray-500">Training Room</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -78,6 +78,20 @@ mock.onGet("/Reservations/Reservations3").reply(200, {
     }
 
 });
+mock.onPut(`/reservations/1`).reply(200, {
+    tableData : [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    space: "Conference Room A",
+    status: "reserved",
+    startTime: "6:30pm",
+    endTime: "8:00pm",
+    totalPrice: "$150"
+  },
+]
+
+});
 
 export default mock;
 
