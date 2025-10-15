@@ -5,12 +5,6 @@ const DropMenu = () => {
 
     const {t} = useTranslations()
     const [timeRange, setTimeRange] = useState("90d")
-    let daysToSubtract = 90
-    if (timeRange === "30d") {
-      daysToSubtract = 30
-    } else if (timeRange === "7d") {
-      daysToSubtract = 7
-    }
     return(
         <div className="bg-gray-100 sm:ms-auto sm:flex rounded-lg me-3 rtl:me-0">
             <Select value={timeRange} onValueChange={setTimeRange}>

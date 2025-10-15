@@ -19,20 +19,20 @@ export default function EventCards() {
   const isRTL = document.documentElement.dir = isArabic ? "rtl" : "ltr";
   const {t} = useTranslations()
   return (
-    <Card className="w-full bg-white">
+    <Card className="w-full bg-card hover:border-accent">
       <CardContent className="h-80 space-y-3 overflow-y-auto">
-        <h1 className="text-xl font-semibold text-gray-800 mb-4">{t("dashboard.Upcoming Events")}</h1>
+        <h1 className="text-xl font-semibold text-card-foreground mb-4">{t("dashboard.Upcoming Events")}</h1>
         {events.map((event, index) => (
         <>
         <div className="relative">
           <div
             key={index}
-            className={"rounded-xl p-3 pl-6 border-1 rtl:pr-5 bg-gray-50 hover:bg-white"}
+            className={"rounded-xl p-3 pl-6 border-1 rtl:pr-5 bg-muted hover:bg-accent hover:text-accent-foreground"}
           >
             <h3 className="text-sm font-medium">{event.title}</h3>
-            <p className="text-muted-foreground text-xs">{event.time}</p>
+            <p className="text-xs">{event.time}</p>
           </div>
-          <div className="absolute start-3 rtl:start-2 top-3.5 h-8 w-1 rounded-full bg-gray-600" style={{top: isRTL ? "0.9rem" : ""}}/>
+          <div className="absolute start-3 rtl:start-2 top-3.5 h-8 w-1 rounded-full bg-muted-foreground" style={{top: isRTL ? "0.9rem" : ""}}/>
         </div>
         </>
         ))}

@@ -119,22 +119,22 @@ export function ChartAreaInteractive() {
     color: "var(--chart-7)",
   },
 } satisfies ChartConfig
-  const [timeRange, setTimeRange] = React.useState("90d")
+  const [timeRange, setTimeRange] = React.useState("7d")
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date)
     const referenceDate = new Date("2024-06-30")
-    let daysToSubtract = 90
-    if (timeRange === "30d") {
+    let daysToSubtract = 7
+    if (timeRange === "90d") {
+      daysToSubtract = 90
+    } else if (timeRange === "30d") {
       daysToSubtract = 30
-    } else if (timeRange === "7d") {
-      daysToSubtract = 7
     }
     const startDate = new Date(referenceDate)
     startDate.setDate(startDate.getDate() - daysToSubtract)
     return date >= startDate
   })
   return (
-    <Card className="bg-white pt-0 m-2">
+    <Card className="bg-card pt-0 m-2 hover:border-accent">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>{t("dashboard.Total visitors")}</CardTitle>
@@ -150,14 +150,14 @@ export function ChartAreaInteractive() {
             <SelectValue placeholder="Last 3 months" />
           </SelectTrigger>
           <SelectContent className="rounded-xl">
-            <SelectItem value="90d" className="rounded-lg">
-              {t("dashboard.Last 3 months")}
+            <SelectItem value="7d" className="rounded-lg">
+              {t("dashboard.Last 7 days")}
             </SelectItem>
             <SelectItem value="30d" className="rounded-lg">
               {t("dashboard.Last 30 days")}
             </SelectItem>
-            <SelectItem value="7d" className="rounded-lg">
-              {t("dashboard.Last 7 days")}
+            <SelectItem value="90d" className="rounded-lg">
+              {t("dashboard.Last 3 months")}
             </SelectItem>
           </SelectContent>
         </Select>

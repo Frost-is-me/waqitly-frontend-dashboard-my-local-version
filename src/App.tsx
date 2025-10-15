@@ -8,6 +8,7 @@ import Create_service from "./pages/Create_service";
 import Calendar from "./pages/Calendar";
 import Analytics from "./pages/Analytics";
 import Locations from "./pages/Locations";
+import DashboardLayout from "./components/pages/DashboardLayout";
 function App() {
 
   const {i18n} = useTranslations()
@@ -20,13 +21,15 @@ function App() {
   return (
     <>
     <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/Reservations" element={<Reservations />}/>
-      <Route path="/Team" element={<Team />}/>
-      <Route path="/CreateService" element={<Create_service />}/>
-      <Route path="/Calendar" element={<Calendar />}/>
-      <Route path="/Analytics" element={<Analytics />}/>
-      <Route path="/Locations" element={<Locations />}/>
+      <Route path="/" element={<DashboardLayout />}>
+        <Route index element={<Dashboard />}/>
+        <Route path="/Reservations" element={<Reservations />}/>
+        <Route path="/Team" element={<Team />}/>
+        <Route path="/CreateService" element={<Create_service />}/>
+        <Route path="/Calendar" element={<Calendar />}/>
+        <Route path="/Analytics" element={<Analytics />}/>
+        <Route path="/Locations" element={<Locations />}/>
+      </Route>
     </Routes>
     </>
   )

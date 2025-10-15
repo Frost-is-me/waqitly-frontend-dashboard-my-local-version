@@ -91,6 +91,7 @@ import {
 import axios from "axios"
 import { toast } from "sonner"
 import useTranslations from "@/hooks/useTranslations"
+import { SelectIcon } from "@radix-ui/react-select"
 export const schema = z.object({
   id: z.number(),
   name: z.string(),
@@ -381,9 +382,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             </div>
             </div>
             <DrawerFooter className="mt-auto">
-              <Button className="bg-brand-orange hover:bg-brand-blue" type="submit" onClick={() => setIsDrawerOpen(false)}>{t("tabel.Submit")}</Button>
+              <Button className="bg-brand-blue hover:bg-accent hover:text-accent-foreground" type="submit" onClick={() => setIsDrawerOpen(false)}>{t("tabel.Submit")}</Button>
               <DrawerClose asChild>
-                <Button variant="outline">{t("tabel.Done")}</Button>
+                <Button variant="outline" className="dark:hover:bg-accent">{t("tabel.Done")}</Button>
               </DrawerClose>
             </DrawerFooter>
           </form>
@@ -484,36 +485,47 @@ export function DataTable({
     }
   }
 
-  const {i18n,t} = useTranslations()
-  const isArabic = i18n.language === "ar"
-  const date : Date = new Date()
-  const today: string =isArabic ? date.toLocaleDateString("ar",{
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-}):
-  date.toLocaleDateString("en-US",{
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-})
+  const {t} = useTranslations()
+
+
   return (
     <Tabs
       defaultValue="outline"
-      className="w-full flex-col justify-start gap-6 mt-9"
+      className="w-full flex-col justify-start gap-6 pt-8 pb-4 border-1 rounded-md bg-card"
     >
       
       <div className="relative flex items-center justify-end px-4 lg:px-6" >
-        <div className="absolute start-8 font-semibold text-3xl text-gray-600 rounded-2xl p-2.5 border-1">
-            {today}
+        <div className="absolute start-8 font-semibold text-3xl text-muted-foreground rounded-2xl p-2.5">
+            <Input 
+            className="flex min-w-xs"
+            placeholder="Search Reservation name"
+            value={(table.getColumn("name")?.getFilterValue() as string ) ?? ""}
+            onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+            />
         </div>
         <div className="flex items-center gap-2">
-          
+          <Select 
+          value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
+          onValueChange={(value) => table.getColumn("status")?.setFilterValue(value === "all" ? "" : value)}
+          >
+            <SelectTrigger size="sm" className="w-32 [&>svg]:hidden hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent dark:hover:text-accent-foreground font-semibold border-1 border-border">
+              <SelectValue placeholder="status"/>
+              <SelectIcon>
+                <IconChevronDown className="hover:text-accent-foreground "/>
+              </SelectIcon>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="done">Done</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="rejected">Rejected</SelectItem>
+              <SelectItem value="reserved">Reserved</SelectItem>
+              <SelectItem value="cancelled">Cancelled</SelectItem>
+            </SelectContent>
+          </Select>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="dark:hover:bg-accent">
                 
                 <span className="hidden lg:inline">{t("tabel.Sorting")}</span>
                 <IconChevronDown />
@@ -564,7 +576,7 @@ export function DataTable({
           </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="dark:hover:bg-accent">
                 <IconLayoutColumns />
                 <span className="hidden lg:inline">{t("tabel.Customize Columns")}</span>
                 <IconChevronDown />
@@ -607,7 +619,7 @@ export function DataTable({
       </div>
       <TabsContent
         value="outline"
-        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6 bg-gray-100"
+        className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
       >
         <div className="overflow-hidden rounded-lg border mt-2">
           <DndContext
@@ -618,7 +630,7 @@ export function DataTable({
             id={sortableId}
           >
             <Table>
-              <TableHeader className="bg-gray-100 hover:bg-none sticky top-0 z-10">
+              <TableHeader className=" hover:bg-none sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
@@ -885,9 +897,9 @@ const FormatTime = (time : string) => {
             </div>
             </div>
             <DrawerFooter className="mt-auto">
-              <Button className="bg-brand-orange hover:bg-brand-blue" type="submit">{t("tabel.Submit")}</Button>
+              <Button className="bg-brand-blue hover:bg-accent hover:text-accent-foreground" type="submit">{t("tabel.Submit")}</Button>
               <DrawerClose asChild>
-                <Button variant="outline">{t("tabel.Done")}</Button>
+                <Button variant="outline" className="dark:hover:bg-accent">{t("tabel.Done")}</Button>
               </DrawerClose>
             </DrawerFooter>
           </form>

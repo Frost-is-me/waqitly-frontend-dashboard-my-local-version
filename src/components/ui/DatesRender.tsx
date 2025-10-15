@@ -385,22 +385,22 @@ const FormatTime = (time : string) => {
 }
 
 if(Matching.length === 0){
-return <div className="text-center text-gray-500 py-8">{t("calendar.No appointments")}</div>
+return <div className="text-center text-muted-foreground py-8">{t("calendar.No appointments")}</div>
     }
 return ( 
     <>
-    <div className="bg-white p-6 rounded-2xl">
+    <div className="bg-card p-6 rounded-2xl">
         <h2 className="text-3xl font-bold bg-brand-blue bg-clip-text text-transparent mb-1 pb-3 text-center">
             {t("calendar.On This Day")}: {date.getDate()}
         </h2>
-        <h3 className="text-xl text-gray-500 mb-6 text-center border-b border-gray-200 pb-4">
+        <h3 className="text-xl text-muted-foreground mb-6 text-center border-b border-border pb-4">
             {isArabic ? date.toLocaleDateString("ar",{month: 'long'}) : date.toLocaleDateString("en-US",{month: 'long',})}
         </h3>
         <div className="overflow-x-auto">
             <table className="w-full">
                 <thead>
-                    <tr className="border-b-1 border-gray-200">
-                        <th className="text-left rtl:text-right pl-3 pb-3">{t("tabel.Name")}</th>
+                    <tr className="border-b-1 border-border">
+                        <th className="text-left rtl:text-right pl-3 pb-3 ">{t("tabel.Name")}</th>
                         <th className="text-left rtl:text-right pl-3 pb-3">{t("tabel.Space")}</th>
                         <th className="text-left rtl:text-right pb-3">{t("tabel.Status")}</th>
                         <th className="text-left rtl:text-right pb-3">{t("tabel.StartTime")}</th>
@@ -412,16 +412,16 @@ return (
                 {Matching.map((item) => (
                     <Drawer key={item.id} direction={isMobile ? "bottom" : "right"}>
                       <DrawerTrigger asChild>
-                    <tr className=" border-b mt-2 border-gray-100 hover:bg-gray-100 hover:cursor-pointer p-4 rounded-2xl mb-2">
+                    <tr className=" border-b mt-2 border-border hover:bg-accent hover:cursor-pointer p-4 rounded-2xl mb-2">
                         <td className="py-3 px-3">{item.name}</td>
                         <td className="py-3 px-3">{item.space}</td>
                         <td className="py-3">
                         <span className={`px-2 py-1 rounded-full text-xs ${
-                            item.status === 'reserved' ? 'bg-green-100 text-green-800' :
-                            item.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                            item.status === "rejected"  ? "bg-red-100 text-red-800" : 
-                            item.status === "cancelled" ?  "bg-red-100 text-red-800" : 
-                            'bg-blue-100 text-blue-800'
+                            item.status === 'reserved' ? 'bg-secondary text-secondary-foreground' :
+                            item.status === 'pending' ? 'bg-accent text-accent-foreground' :
+                            item.status === 'rejected' ? 'bg-destructive text-white' :
+                            item.status === 'cancelled' ? 'bg-destructive text-white' :
+                            'bg-primary text-primary-foreground'
                         }`}>
                             {item.status}
                         </span>
@@ -500,9 +500,9 @@ return (
                           </div>
                           </div>
                           <DrawerFooter className="mt-auto">
-                            <Button className="bg-brand-orange hover:bg-brand-blue" type="submit">{t("tabel.Submit")}</Button>
+                            <Button className="bg-brand-blue hover:bg-accent hover:text-black" type="submit">{t("tabel.Submit")}</Button>
                             <DrawerClose asChild>
-                              <Button variant="outline">{t("tabel.Done")}</Button>
+                              <Button variant="outline" className="dark:hover:bg-accent">{t("tabel.Done")}</Button>
                             </DrawerClose>
                           </DrawerFooter>
                         </form>

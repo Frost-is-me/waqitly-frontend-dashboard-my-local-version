@@ -17,22 +17,22 @@ export default function MainCalendar() {
   const {date,month,setDate,setMonth,Today} = useDates()
   const {t} = useTranslations()
   return (
-    <Card className="w-fit shadow-xl border-1 bg-gray-50">
+    <Card className="w-full shadow-lg border-1 bg-card hover:border-accent">
       <CardHeader className="text-center pb-4">
-        <CardTitle className="text-2xl font-bold text-gray-800">{t("calendar.Appointments")}</CardTitle>
-        <CardDescription className="text-gray-600 text-lg">{t("calendar.Find a date")}</CardDescription>
+        <CardTitle className="text-2xl font-bold text-muted-foreground">{t("calendar.Appointments")}</CardTitle>
+        <CardDescription className="text-muted-foreground text-lg">{t("calendar.Find a date")}</CardDescription>
         <Button
           size="sm"
           variant="outline"
           onClick={Today}
-          className="mt-2"
+          className="mt-2 dark:hover:bg-accent"
         >
           {t("calendar.Today")}
         </Button>
       </CardHeader>
-      <CardContent className="flex gap-8 justify-center p-6">
-        {[0,1].map((offset) => (
-          <div key={offset} className="border border-gray-100 rounded-xl p-4 bg-gray-50 shadow-md h-[390px] overflow-hidden">
+      <CardContent className="flex justify-center p-6">
+        {[0].map((offset) => (
+          <div key={offset} className="border border-border rounded-xl p-4 bg-card shadow-md flex justify-center">
             <Calendar
               mode="single"
               required
@@ -41,7 +41,6 @@ export default function MainCalendar() {
               selected={date}
               onSelect={setDate}
               locale={i18n.language === "ar" ? ar : enUS }
-              className="[&_.rdp-month]:w-[280px]"
             />
           </div>
         ))}
